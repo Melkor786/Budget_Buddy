@@ -1,0 +1,21 @@
+:root {
+    --body-background: white;
+    --body-color: black;
+    --link-color: navy;
+  }
+  
+  [data-theme="dark"] {
+    --body-background: #282c34;
+    --body-color: white;
+    --link-color: cyan;
+  }
+  
+  body {
+    background-color: var(--body-background);
+    color: var(--body-color);
+  }
+  
+  a {
+    color: var(--link-color);
+  }
+  

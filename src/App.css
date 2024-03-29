@@ -1,0 +1,30 @@
+:root {
+  --body-background-light: #f2f2f2;
+  --body-color-light: #000;
+  --link-color-light: #007bff;
+
+  --body-background-dark: #282c34;
+  --body-color-dark: #fff; 
+  --link-color-dark: #add8e6; 
+}
+
+[data-theme="light"] {
+  --body-background: var(--body-background-light);
+  --body-color: var(--body-color-light);
+  --link-color: var(--link-color-light);
+}
+
+[data-theme="dark"] {
+  --body-background: var(--body-background-dark);
+  --body-color: var(--body-color-dark);
+  --link-color: var(--link-color-dark);
+}
+
+body {
+  background-color: var(--body-background);
+  color: var(--body-color);
+}
+
+a {
+  color: var(--link-color);
+}

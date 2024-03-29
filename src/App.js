@@ -1,6 +1,5 @@
 import React, {useState, useMemo} from 'react'
 import styled from "styled-components";
-import bg from './img/bg.png'
 import {MainLayout} from './styles/Layouts'
 import Orb from './Components/Orb/Orb'
 import Navigation from './Components/Navigation/Navigation'
@@ -8,6 +7,7 @@ import Dashboard from './Components/Dashboard/Dashboard';
 import Income from './Components/Income/Income'
 import Expenses from './Components/Expenses/Expenses';
 import { useGlobalContext } from './context/globalContext';
+import DarkMode from "./Components/DarkMode/DarkMode";
 
 function App() {
   const [active, setActive] = useState(1)
@@ -35,9 +35,10 @@ function App() {
   },[])
 
   return (
-    <AppStyled bg={bg} className="App">
+    <AppStyled  className="App">
       {orbMemo}
-      <MainLayout>
+      <MainLayout>  
+      <DarkMode />
         <Navigation active={active} setActive={setActive} />
         <main>
           {displayData()}
