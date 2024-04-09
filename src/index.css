@@ -1,11 +1,11 @@
 :root {
-    --body-background: rgb(129, 228, 245);
+    --body-background: rgb(228, 250, 204);
     --body-color: black;
     --link-color: navy;
   }
   
   [data-theme="dark"] {
-    --body-background: #282c34;
+    --body-background: #000000;
     --body-color: white;
     --link-color: cyan;
   }
