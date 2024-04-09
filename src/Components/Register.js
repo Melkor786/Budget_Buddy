@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"
 import "../styles/Register.scss";
-import { useGlobalContext } from "../context/globalContext";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -12,7 +11,6 @@ const RegisterPage = () => {
     confirmPassword: "",
     profileImage: null,
   });
-  const { isAuthenticated } = useGlobalContext(); 
   const navigate = useNavigate()
 
   const handleChange = (e) => {
@@ -29,14 +27,6 @@ const RegisterPage = () => {
   useEffect(() => {
     setPasswordMatch(formData.password === formData.confirmPassword || formData.confirmPassword === "")
   })
-
-
-  useEffect(() => {
-    console.log(` ye authentication wala console log hai: ${isAuthenticated()}`);
-    if (isAuthenticated()) {
-      navigate("/");
-    }
-  }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault()

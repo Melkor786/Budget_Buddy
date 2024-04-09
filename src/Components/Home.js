@@ -6,14 +6,11 @@ import Navigation from "./Navigation";
 import Dashboard from "./Dashboard";
 import Income from "./Income";
 import Expenses from "./Expenses/Expenses";
-import { useGlobalContext } from "../context/globalContext";
-import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [active, setActive] = useState(1);
 
-  const {isAuthenticated} = useGlobalContext();
-
+  
   const displayData = () => {
     switch (active) {
       case 1:
@@ -28,12 +25,7 @@ function Home() {
         return <Dashboard />;
     }
   };
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!isAuthenticated()) {
-      navigate("/login");
-    }
-  }, [isAuthenticated]);
+  
 
   const orbMemo = useMemo(() => {
     return <Orb />;

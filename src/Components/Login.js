@@ -9,16 +9,8 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login, isAuthenticated } = useGlobalContext(); 
+  const { login } = useGlobalContext(); 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // console.log(`ye hai user: ${user}`);
-    // console.log(` ye authentication wala console log hai: ${isAuthenticated()}`);
-    if (isAuthenticated()) {
-      navigate("/");
-    }
-  }, [isAuthenticated]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
