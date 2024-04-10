@@ -29,7 +29,7 @@ ChartJs.register(
 function Chart() {
     const {incomes, expenses} = useGlobalContext()
 
-    const data = {
+    const Transactiondata = {
         labels: incomes.map((inc) =>{
             const {date} = inc
             return dateFormat(date)
@@ -63,7 +63,7 @@ function Chart() {
 
     return (
         <ChartStyled >
-            <Line data={data} />
+            <Line data={Transactiondata} />
         </ChartStyled>
     )
 }
