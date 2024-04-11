@@ -30,7 +30,7 @@ const RegisterPage = () => {
     });
   };
   const GoogleAuth = () => {
-    alert("React Social Login Buttons!");
+    // window.open("http://localhost:5000/auth/google/callback","_self")
   };
   
   useEffect(() => {
@@ -132,7 +132,8 @@ const RegisterPage = () => {
           <button type="submit" disabled={!passwordMatch}>REGISTER</button>
         </form>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <Google
+          <Google 
+            text="Continue with Google"
             style={{
               display: "flex",
               justifyContent: "center",

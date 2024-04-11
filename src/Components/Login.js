@@ -27,8 +27,9 @@ const LoginPage = () => {
     }
   };
   const GoogleAuth = () => {
-    alert("React Social Login Buttons!");
+      // window.open("http://localhost:5000/auth/google/callback","_self")
   };
+ 
   return (
     <div className="login">
       <div className="login_content">
@@ -52,6 +53,7 @@ const LoginPage = () => {
         <p style={{ display: "flex", justifyContent: "center" , textDecorationColor:"white"}}>Use Social Media Credentials</p>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Google
+            text="Continue with Google"
             style={{
               display: "flex",
               justifyContent: "center",
