@@ -26,7 +26,7 @@ const RegisterPage = () => {
       [name]: name === "profileImage" ? files[0] : value,
     });
   };
-  const handleClick = () => {
+  const GoogleAuth = () => {
     alert("React Social Login Buttons!");
   };
   const [passwordMatch, setPasswordMatch] = useState(true)
@@ -128,16 +128,15 @@ const RegisterPage = () => {
           )}
           <button type="submit" disabled={!passwordMatch}>REGISTER</button>
         </form>
-        <p style={{ display: "flex", justifyContent: "center" }}>or signup with</p>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Google
             style={{
               display: "flex",
               justifyContent: "center",
-              width: "300px"
+              width: "300px",
+              height: "40px"
             }}
-            text="Google"
-            onClick={handleClick}
+            onClick={GoogleAuth}
           />
         </div>
         <a href="/login">Already have an account? Log In Here</a>

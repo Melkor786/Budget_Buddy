@@ -49,16 +49,15 @@ const LoginPage = () => {
           />
           <button type="submit">LOG IN</button>
         </form>
-        <p style={{ display: "flex", justifyContent: "center" , textDecorationColor:"white"}}>or Signup with</p>
+        <p style={{ display: "flex", justifyContent: "center" , textDecorationColor:"white"}}>Use Social Media Credentials</p>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Google
             style={{
               display: "flex",
               justifyContent: "center",
               width: "300px",
-              height: "60px"
+              height: "40px"
             }}
-            text="Google"
             onClick={GoogleAuth}
           />
         </div>
