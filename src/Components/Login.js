@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../context/globalContext";
 
 import {
-  FacebookLoginButton,
-  GoogleLoginButton,
-  GithubLoginButton,
+  FacebookLoginButton as Facebook,
+  GoogleLoginButton as Google,
+  GithubLoginButton as Github,
 } from "react-social-login-buttons";
 
 const LoginPage = () => {
@@ -26,7 +26,7 @@ const LoginPage = () => {
       console.log("Login failed : ", err.message);
     }
   };
-  const handleClick = () => {
+  const GoogleAuth = () => {
     alert("React Social Login Buttons!");
   };
   return (
@@ -49,11 +49,18 @@ const LoginPage = () => {
           />
           <button type="submit">LOG IN</button>
         </form>
-        <div>
-          {"or"}
-          <GoogleLoginButton onClick={handleClick}/>
-          {/*<FacebookLoginButton onClick={handleClick}/>
-          <GithubLoginButton onClick={handleClick}/>*/}
+        <p style={{ display: "flex", justifyContent: "center" , textDecorationColor:"white"}}>or Signup with</p>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Google
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              width: "300px",
+              height: "60px"
+            }}
+            text="Google"
+            onClick={GoogleAuth}
+          />
         </div>
         <a href="/register">Don't have an account? Sign In Here</a>
       </div>

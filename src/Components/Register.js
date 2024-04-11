@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"
 import "../styles/Register.scss";
+import {
+  FacebookLoginButton as Facebook,
+  GoogleLoginButton as Google,
+  GithubLoginButton as Github,
+} from "react-social-login-buttons";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -21,7 +26,9 @@ const RegisterPage = () => {
       [name]: name === "profileImage" ? files[0] : value,
     });
   };
-
+  const handleClick = () => {
+    alert("React Social Login Buttons!");
+  };
   const [passwordMatch, setPasswordMatch] = useState(true)
 
   useEffect(() => {
@@ -121,6 +128,18 @@ const RegisterPage = () => {
           )}
           <button type="submit" disabled={!passwordMatch}>REGISTER</button>
         </form>
+        <p style={{ display: "flex", justifyContent: "center" }}>or signup with</p>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Google
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              width: "300px"
+            }}
+            text="Google"
+            onClick={handleClick}
+          />
+        </div>
         <a href="/login">Already have an account? Log In Here</a>
       </div>
     </div>
