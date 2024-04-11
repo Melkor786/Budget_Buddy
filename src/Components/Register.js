@@ -6,6 +6,7 @@ import {
   GoogleLoginButton as Google,
   GithubLoginButton as Github,
 } from "react-social-login-buttons";
+import { useGlobalContext } from "../context/globalContext";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +18,8 @@ const RegisterPage = () => {
     profileImage: null,
   });
   const navigate = useNavigate()
+  const [passwordMatch, setPasswordMatch] = useState(true)
+  const { login } = useGlobalContext();
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -29,8 +32,7 @@ const RegisterPage = () => {
   const GoogleAuth = () => {
     alert("React Social Login Buttons!");
   };
-  const [passwordMatch, setPasswordMatch] = useState(true)
-
+  
   useEffect(() => {
     setPasswordMatch(formData.password === formData.confirmPassword || formData.confirmPassword === "")
   })
@@ -51,7 +53,8 @@ const RegisterPage = () => {
       })
 
       if (response.ok) {
-        navigate("/login")
+        await login({ email: formData.email, password: formData.password});
+        navigate("/")
       }
     } catch (err) {
       console.log("Registration failed", err.message)

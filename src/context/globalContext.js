@@ -77,7 +77,7 @@ export const GlobalProvider = ({ children }) => {
   const totalIncome = () => {
     let totalIncome = 0;
       incomes.forEach((income) => {
-        if(income.userid==user.id) 
+        if(income.userid===user.id) 
           totalIncome = totalIncome + income.amount;
       }); 
     return totalIncome;
@@ -107,7 +107,7 @@ export const GlobalProvider = ({ children }) => {
   const totalExpenses = () => {
     let totalIncome = 0;
       expenses.forEach((income) => {
-        if(income.userid==user.id) 
+        if(income.userid===user.id) 
           totalIncome = totalIncome + income.amount;
     });
     return totalIncome;
