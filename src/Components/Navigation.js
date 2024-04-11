@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import avatar from "../img/avatar.png";
-import { signout, login, signup } from "../utils/Icons";
+import { signout } from "../utils/Icons";
 import { menuItems } from "../utils/menuItems";
 import { useGlobalContext } from "../context/globalContext";
 import DarkMode from "./DarkMode/DarkMode";
