@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 const BASE_URL = "http://localhost:5000/api/v1/transaction";
@@ -6,14 +6,56 @@ const BASE_URL = "http://localhost:5000/api/v1/transaction";
 const GlobalContext = React.createContext();
 
 export const GlobalProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    const storedToken = localStorage.getItem("token");
+
+    if (storedUser && storedToken) {
+      setUser(JSON.parse(storedUser));
+      setToken(storedToken);
+      axios.defaults.headers.common["Authorization"] = `Bearer ${storedToken}`;
+    }
+  }, []);
+
   const [incomes, setIncomes] = useState([]);
   const [expenses, setExpenses] = useState([]);
   const [error, setError] = useState(null);
+  
+
+  const login = async (credentials) => {
+    try {
+      const response = await axios.post(`${BASE_URL}users/login`, credentials);
+      const { user, token } = response.data;
+      setUser(user);
+      setToken(token);
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", token);
+      
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    } catch (err) {
+      setError(err.response.data.message);
+    }
+  };
+
+  const logout = () => {
+    setUser(null);
+    setToken(null);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    delete axios.defaults.headers.common["Authorization"];
+  };
+
+  const isAuthenticated = () => {
+    return user!=null;
+  };
 
   //calculate incomes
   const addIncome = async (income) => {
     const response = await axios
-      .post(`${BASE_URL}add-income`, income)
+      .post(`${BASE_URL}transactions/add-income`, income)
       .catch((err) => {
         setError(err.response.data.message);
       });
@@ -21,28 +63,29 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const getIncomes = async () => {
-    const response = await axios.get(`${BASE_URL}get-incomes`);
+    const response = await axios.get(`${BASE_URL}transactions/get-incomes`);
     setIncomes(response.data);
     console.log("getIncomes: ",response.data);
   };
 
   const deleteIncome = async (id) => {
-    const res = await axios.delete(`${BASE_URL}delete-income/${id}`);
+    const res = await axios.delete(`${BASE_URL}transactions/delete-income/${id}`);
     getIncomes();
   };
 
+  //change this function to take only those transactions which are performed by specefic user
   const totalIncome = () => {
     let totalIncome = 0;
       incomes.forEach((income) => {
-        totalIncome = totalIncome + income.amount;
+        if(income.userid==user.id) 
+          totalIncome = totalIncome + income.amount;
       }); 
     return totalIncome;
   };
 
-  //calculate incomes
   const addExpense = async (income) => {
     const response = await axios
-      .post(`${BASE_URL}add-expense`, income)
+      .post(`${BASE_URL}transactions/add-expense`, income)
       .catch((err) => {
         setError(err.response.data.message);
       });
@@ -50,20 +93,22 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const getExpenses = async () => {
-    const response = await axios.get(`${BASE_URL}get-expenses`);
+    const response = await axios.get(`${BASE_URL}transactions/get-expenses`);
     setExpenses(response.data);
     console.log("getExpenses: ", response.data);
   };
 
   const deleteExpense = async (id) => {
-    const res = await axios.delete(`${BASE_URL}delete-expense/${id}`);
+    const res = await axios.delete(`${BASE_URL}transactions/delete-expense/${id}`);
     getExpenses();
   };
 
+  //change this function to take only those transactions which are performed by specefic user
   const totalExpenses = () => {
     let totalIncome = 0;
       expenses.forEach((income) => {
-      totalIncome = totalIncome + income.amount;
+        if(income.userid==user.id) 
+          totalIncome = totalIncome + income.amount;
     });
     return totalIncome;
   };
@@ -72,6 +117,7 @@ export const GlobalProvider = ({ children }) => {
     return totalIncome() - totalExpenses();
   };
 
+  //change this function to take only those transactions which are performed by specefic user
   const transactionHistory = () => {
     const history = [...incomes, ...expenses];
     history.sort((a, b) => {
@@ -84,11 +130,17 @@ export const GlobalProvider = ({ children }) => {
   return (
     <GlobalContext.Provider
       value={{
+        user,
+        token,
+        incomes,
+        expenses,
+        error,
+        login,
+        logout,
+        isAuthenticated,
         addIncome,
         getIncomes,
-        incomes,
         deleteIncome,
-        expenses,
         totalIncome,
         addExpense,
         getExpenses,
@@ -96,7 +148,6 @@ export const GlobalProvider = ({ children }) => {
         totalExpenses,
         totalBalance,
         transactionHistory,
-        error,
         setError,
       }}
     >
