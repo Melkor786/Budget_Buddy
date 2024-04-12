@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import styled from "styled-components";
 import { MainLayout } from "../styles/Layouts";
 import Orb from "./Orb";

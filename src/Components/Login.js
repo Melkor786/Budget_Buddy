@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "../styles/Login.scss";
 import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../context/globalContext";
 import { toast } from 'react-toastify';
 
 import {
-  FacebookLoginButton as Facebook,
-  GoogleLoginButton as Google,
-  GithubLoginButton as Github,
+  // FacebookLoginButton as Facebook,
+  GoogleLoginButton as Google
+  // GithubLoginButton as Github,
 } from "react-social-login-buttons";
 
 const LoginPage = () => {
