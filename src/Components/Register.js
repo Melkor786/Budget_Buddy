@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 import "../styles/Register.scss";
 import {
   FacebookLoginButton as Facebook,
@@ -17,8 +18,8 @@ const RegisterPage = () => {
     confirmPassword: "",
     profileImage: null,
   });
-  const navigate = useNavigate()
-  const [passwordMatch, setPasswordMatch] = useState(true)
+  const navigate = useNavigate();
+  const [passwordMatch, setPasswordMatch] = useState(true);
   const { login } = useGlobalContext();
 
   const handleChange = (e) => {
@@ -30,36 +31,46 @@ const RegisterPage = () => {
     });
   };
   const GoogleAuth = () => {
-    // window.open("http://localhost:5000/auth/google/callback","_self")
+    try {
+      window.location.href = `http://localhost:5000/auth/google/callback`;
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
   };
-  
+
   useEffect(() => {
-    setPasswordMatch(formData.password === formData.confirmPassword || formData.confirmPassword === "")
-  })
+    setPasswordMatch(
+      formData.password === formData.confirmPassword ||
+        formData.confirmPassword === ""
+    );
+  });
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
-      const register_form = new FormData()
+      const register_form = new FormData();
 
       for (var key in formData) {
-        register_form.append(key, formData[key])
+        register_form.append(key, formData[key]);
       }
 
-      const response = await fetch("http://localhost:5000/api/v1/users/register", {
-        method: "POST",
-        body: register_form
-      })
+      const response = await fetch(
+        "http://localhost:5000/api/v1/users/register",
+        {
+          method: "POST",
+          body: register_form,
+        }
+      );
 
       if (response.ok) {
-        await login({ email: formData.email, password: formData.password});
-        navigate("/")
+        await login({ email: formData.email, password: formData.password });
+        navigate("/");
       }
     } catch (err) {
-      console.log("Registration failed", err.message)
+      console.log("Registration failed", err.message);
     }
-  }
+  };
 
   return (
     <div className="register">
@@ -129,16 +140,18 @@ const RegisterPage = () => {
               style={{ maxWidth: "80px" }}
             />
           )}
-          <button type="submit" disabled={!passwordMatch}>REGISTER</button>
+          <button type="submit" disabled={!passwordMatch}>
+            REGISTER
+          </button>
         </form>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <Google 
+          <Google
             text="Continue with Google"
             style={{
               display: "flex",
               justifyContent: "center",
               width: "300px",
-              height: "40px"
+              height: "40px",
             }}
             onClick={GoogleAuth}
           />

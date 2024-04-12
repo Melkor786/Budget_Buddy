@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../styles/Login.scss";
 import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../context/globalContext";
+import { toast } from 'react-toastify';
 
 import {
   FacebookLoginButton as Facebook,
@@ -26,10 +27,17 @@ const LoginPage = () => {
       console.log("Login failed : ", err.message);
     }
   };
-  const GoogleAuth = () => {
-      // window.open("http://localhost:5000/auth/google/callback","_self")
-  };
+
  
+
+  const GoogleAuth = () => {
+    try {
+      window.location.href = `http://localhost:5000/auth/google/callback`;
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
+
   return (
     <div className="login">
       <div className="login_content">
@@ -50,7 +58,15 @@ const LoginPage = () => {
           />
           <button type="submit">LOG IN</button>
         </form>
-        <p style={{ display: "flex", justifyContent: "center" , textDecorationColor:"white"}}>Use Social Media Credentials</p>
+        <p
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            textDecorationColor: "white",
+          }}
+        >
+          Use Social Media Credentials
+        </p>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Google
             text="Continue with Google"
@@ -58,7 +74,7 @@ const LoginPage = () => {
               display: "flex",
               justifyContent: "center",
               width: "300px",
-              height: "40px"
+              height: "40px",
             }}
             onClick={GoogleAuth}
           />
