@@ -131,12 +131,13 @@ export const GlobalProvider = ({ children }) => {
     return history.slice(0, 3);
   };
 
-  const currencyFormat = (prop) => {
+  const currencyFormat = (amount) => {
+    
     return new Intl.NumberFormat("en-IN", {
       style: "currency",
       currency: "INR",
       trailingZeroDisplay: "stripIfInteger",
-    }).format(prop);
+    }).format(amount);
   };
 
   return (
