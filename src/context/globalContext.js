@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import * as api from "../api/Googleapi";
-const BASE_URL = "http://localhost:5000/api/v1/";
+import  {BASE_URL} from "../api/env";
 
 const GlobalContext = React.createContext();
 
@@ -25,7 +24,9 @@ export const GlobalProvider = ({ children }) => {
 
   const signinGoogle = async (accessToken) => {
     try {
-      const { data } = await api.signInGoogle(accessToken);
+      const { data } = await axios.post(`${BASE_URL}users/login`, {
+        googleAccessToken: accessToken,
+      });
       setUser(data.user);
       setToken(data.token);
       localStorage.setItem("token", data.token);

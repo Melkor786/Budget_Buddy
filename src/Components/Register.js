@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../context/globalContext";
 import { useGoogleLogin } from "@react-oauth/google";
 import { GoogleLoginButton as Google } from "react-social-login-buttons";
-
+import { BASE_URL } from "../api/env";
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -51,7 +51,7 @@ const RegisterPage = () => {
       }
 
       const response = await fetch(
-        "http://localhost:5000/api/v1/users/register",
+        `${BASE_URL}users/register`,
         {
           method: "POST",
           body: register_form,
