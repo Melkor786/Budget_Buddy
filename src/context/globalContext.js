@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-
+import * as api from "../api/Googleapi";
 const BASE_URL = "http://localhost:5000/api/v1/";
 
 const GlobalContext = React.createContext();
@@ -8,6 +8,9 @@ const GlobalContext = React.createContext();
 export const GlobalProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+  const [incomes, setIncomes] = useState([]);
+  const [expenses, setExpenses] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -20,10 +23,18 @@ export const GlobalProvider = ({ children }) => {
     }
   }, []);
 
-  const [incomes, setIncomes] = useState([]);
-  const [expenses, setExpenses] = useState([]);
-  const [error, setError] = useState(null);
-  
+  const signinGoogle = async (accessToken) => {
+    try {
+      const { data } = await api.signInGoogle(accessToken);
+      setUser(data.user);
+      setToken(data.token);
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      axios.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const login = async (credentials) => {
     try {
@@ -33,7 +44,6 @@ export const GlobalProvider = ({ children }) => {
       setToken(token);
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("token", token);
-      
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     } catch (err) {
       setError(err.response.data.message);
@@ -49,10 +59,9 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const isAuthenticated = () => {
-    return user!=null;
+    return user != null;
   };
 
-  //calculate incomes
   const addIncome = async (income) => {
     await axios
       .post(`${BASE_URL}transactions/add-income`, income)
@@ -65,7 +74,7 @@ export const GlobalProvider = ({ children }) => {
   const getIncomes = async () => {
     const response = await axios.get(`${BASE_URL}transactions/get-incomes`);
     setIncomes(response.data);
-    console.log("getIncomes: ",response.data);
+    console.log("getIncomes: ", response.data);
   };
 
   const deleteIncome = async (id) => {
@@ -73,13 +82,11 @@ export const GlobalProvider = ({ children }) => {
     getIncomes();
   };
 
-  //change this function to take only those transactions which are performed by specefic user
   const totalIncome = () => {
     let totalIncome = 0;
-      incomes.forEach((income) => {
-        if(income.userid===user.id) 
-          totalIncome = totalIncome + income.amount;
-      }); 
+    incomes.forEach((income) => {
+      if (income.userid === user.id) totalIncome = totalIncome + income.amount;
+    });
     return totalIncome;
   };
 
@@ -103,12 +110,10 @@ export const GlobalProvider = ({ children }) => {
     getExpenses();
   };
 
-  //change this function to take only those transactions which are performed by specefic user
   const totalExpenses = () => {
     let totalIncome = 0;
-      expenses.forEach((income) => {
-        if(income.userid===user.id) 
-          totalIncome = totalIncome + income.amount;
+    expenses.forEach((income) => {
+      if (income.userid === user.id) totalIncome = totalIncome + income.amount;
     });
     return totalIncome;
   };
@@ -117,7 +122,6 @@ export const GlobalProvider = ({ children }) => {
     return totalIncome() - totalExpenses();
   };
 
-  //change this function to take only those transactions which are performed by specefic user
   const transactionHistory = () => {
     const history = [...incomes, ...expenses];
     history.sort((a, b) => {
@@ -125,6 +129,14 @@ export const GlobalProvider = ({ children }) => {
     });
 
     return history.slice(0, 3);
+  };
+
+  const currencyFormat = (prop) => {
+    return new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+      trailingZeroDisplay: "stripIfInteger",
+    }).format(prop);
   };
 
   return (
@@ -135,9 +147,11 @@ export const GlobalProvider = ({ children }) => {
         incomes,
         expenses,
         error,
+        signinGoogle,
         login,
         logout,
         isAuthenticated,
+        currencyFormat,
         addIncome,
         getIncomes,
         deleteIncome,

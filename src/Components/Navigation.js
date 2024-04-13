@@ -13,25 +13,36 @@ function Navigation({ active, setActive }) {
     logout();
     navigate("/login");
   };
+  const check = (pfp) => {
+    for (let i = 0; i < pfp.length; i++) {
+      for (let j = i + 1; j <= pfp.length; j++) {
+        if (pfp.substring(i, j) === "public") {
+          return 0;
+        }
+      }
+    }
+    return 1;
+  };
+  const UserProfile = check(user?.profileImagePath)
+    ? user?.profileImagePath
+    : `http://localhost:5000/${user?.profileImagePath.replace("public", "")}`;
+
   return (
     <NavStyled>
-    <div className="user-con">
-    <DarkMode />
-    <img
-    src={`http://localhost:5000/${user?.profileImagePath.replace(
-      "public",
-      ""
-    )}`}
-    alt="Profile Image"
-    style={{ objectFit: "scale-down", borderRadius: "50%" }}
-    />
-    <div className="text">
-    <h2>
-    <span>{user?.firstName + " " + user?.lastName}</span>
-    </h2>
-    <p>Your Money</p>
-    </div>
-    </div>
+      <div className="user-con">
+        <DarkMode />
+        <img
+          src={UserProfile}
+          alt="Profile Image"
+          style={{ objectFit: "scale-down", borderRadius: "50%" }}
+        />
+        <div className="text">
+          <h2>
+            <span>{user?.firstName + " " + user?.lastName}</span>
+          </h2>
+          <p>Your Money</p>
+        </div>
+      </div>
       <ul className="menu-items">
         {menuItems.map((item) => {
           return (

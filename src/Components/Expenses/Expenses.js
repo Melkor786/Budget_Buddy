@@ -4,9 +4,8 @@ import { useGlobalContext } from '../../context/globalContext';
 import { InnerLayout } from '../../styles/Layouts';
 import IncomeItem from './../IncomeItem';
 import ExpenseForm from './ExpenseForm';
-
 function Expenses() {
-    const {expenses, getExpenses, deleteExpense, totalExpenses} = useGlobalContext()
+    const {expenses, getExpenses, deleteExpense, totalExpenses, currencyFormat} = useGlobalContext()
 
     useEffect(() =>{
         getExpenses()
@@ -15,7 +14,7 @@ function Expenses() {
         <ExpenseStyled>
             <InnerLayout>
                 <h1>Expenses</h1>
-                <h2 className="total-income">Total Expense: <span>${totalExpenses()}</span></h2>
+                <h2 className="total-income">Total Expense: <span>{currencyFormat(totalExpenses())}</span></h2>
                 <div className="income-content">
                     <div className="form-container">
                         <ExpenseForm />
@@ -23,13 +22,12 @@ function Expenses() {
                     <div className="incomes">
                         {expenses.map((income) => {
                             const {_id, title, amount, date, category, description, type} = income;
-                            console.log(income)
                             return <IncomeItem
                                 key={_id}
                                 id={_id} 
                                 title={title} 
                                 description={description} 
-                                amount={amount} 
+                                amount={currencyFormat(amount)} 
                                 date={date} 
                                 type={type}
                                 category={category} 

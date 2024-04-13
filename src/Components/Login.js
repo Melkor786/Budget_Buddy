@@ -2,24 +2,18 @@ import React, { useState } from "react";
 import "../styles/Login.scss";
 import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../context/globalContext";
-import { toast } from 'react-toastify';
+import {useGoogleLogin} from '@react-oauth/google';
+import {GoogleLoginButton as Google} from "react-social-login-buttons";
 
-import {
-  // FacebookLoginButton as Facebook,
-  GoogleLoginButton as Google
-  // GithubLoginButton as Github,
-} from "react-social-login-buttons";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const { login } = useGlobalContext();
+  const { login,signinGoogle} = useGlobalContext();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       await login({ email, password });
       navigate("/");
@@ -28,15 +22,11 @@ const LoginPage = () => {
     }
   };
 
- 
-
-  const GoogleAuth = () => {
-    try {
-      window.location.href = `http://localhost:5000/auth/google/callback`;
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
-    }
-  };
+  const GoogleAuth = useGoogleLogin({onSuccess: (tokenResponse) => {
+    const accessToken = tokenResponse.access_token;
+    signinGoogle(accessToken);
+    navigate("/");
+  }});
 
   return (
     <div className="login">
@@ -76,7 +66,7 @@ const LoginPage = () => {
               width: "300px",
               height: "40px",
             }}
-            onClick={GoogleAuth}
+            onClick={()=>GoogleAuth()}
           />
         </div>
         <a href="/register">Don't have an account? Sign In Here</a>

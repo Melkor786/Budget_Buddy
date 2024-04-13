@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
 import "../styles/Register.scss";
-import {
-  FacebookLoginButton as Facebook,
-  GoogleLoginButton as Google,
-  GithubLoginButton as Github,
-} from "react-social-login-buttons";
+import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../context/globalContext";
+import { useGoogleLogin } from "@react-oauth/google";
+import { GoogleLoginButton as Google } from "react-social-login-buttons";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -20,7 +16,7 @@ const RegisterPage = () => {
   });
   const navigate = useNavigate();
   const [passwordMatch, setPasswordMatch] = useState(true);
-  const { login } = useGlobalContext();
+  const { login,signinGoogle } = useGlobalContext();
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -30,14 +26,13 @@ const RegisterPage = () => {
       [name]: name === "profileImage" ? files[0] : value,
     });
   };
-  const GoogleAuth = () => {
-    try {
-      window.location.href = `http://localhost:5000/auth/google/callback`;
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
-    }
-  };
 
+  const GoogleAuth = useGoogleLogin({ onSuccess: (tokenResponse) =>{
+    const accessToken = tokenResponse.access_token;
+    signinGoogle(accessToken);
+    navigate("/");
+  } });
+  
   useEffect(() => {
     setPasswordMatch(
       formData.password === formData.confirmPassword ||

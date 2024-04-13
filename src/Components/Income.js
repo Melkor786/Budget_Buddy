@@ -4,9 +4,10 @@ import { useGlobalContext } from "../context/globalContext";
 import { InnerLayout } from "../styles/Layouts";
 import Form from "./Form";
 import IncomeItem from "./IncomeItem";
+import { rupee } from "../utils/Icons";
 
 function Income() {
-  const { addIncome, incomes, getIncomes, deleteIncome, totalIncome } =
+  const { currencyFormat,addIncome, incomes, getIncomes, deleteIncome, totalIncome } =
     useGlobalContext();
 
   useEffect(() => {
@@ -17,7 +18,7 @@ function Income() {
       <InnerLayout>
         <h1>Incomes</h1>
         <h2 className="total-income">
-          Total Income: <span>${totalIncome()}</span>
+          Total Income: <span>{currencyFormat(totalIncome())}</span>
         </h2>
         <div className="income-content">
           <div className="form-container">
@@ -33,7 +34,7 @@ function Income() {
                   id={_id}
                   title={title}
                   description={description}
-                  amount={amount}
+                  amount={currencyFormat(amount)}
                   date={date}
                   type={type}
                   category={category}
