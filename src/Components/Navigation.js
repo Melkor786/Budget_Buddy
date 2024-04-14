@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { signout } from "../utils/Icons";
 import { menuItems } from "../utils/menuItems";
 import { useGlobalContext } from "../context/globalContext";
-import DarkMode from "./DarkMode/DarkMode";
+
 
 function Navigation({ active, setActive }) {
   const { user, logout } = useGlobalContext();
@@ -30,7 +30,6 @@ function Navigation({ active, setActive }) {
   return (
     <NavStyled>
       <div className="user-con">
-        <DarkMode />
         <img
           src={UserProfile}
           alt="Profile Image"

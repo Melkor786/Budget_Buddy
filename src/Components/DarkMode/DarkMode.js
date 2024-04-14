@@ -14,23 +14,16 @@ const DarkMode = () => {
         }
     }, []);
 
-    const setDarkMode = () => {
-        setIsDarkMode(true);
-        document.querySelector("body").setAttribute("data-theme", "dark");
-        localStorage.setItem("darkMode", "true");
-    };
-
-    const setLightMode = () => {
-        setIsDarkMode(false);
-        document.querySelector("body").setAttribute("data-theme", "light");
-        localStorage.setItem("darkMode", "false");
-    };
-
     const toggleTheme = () => {
         if (isDarkMode) {
-            setLightMode();
+            setIsDarkMode(false);
+            document.querySelector("body").setAttribute("data-theme", "light");
+            localStorage.setItem("darkMode", "false");
+    
         } else {
-            setDarkMode();
+            setIsDarkMode(true);
+        document.querySelector("body").setAttribute("data-theme", "dark");
+        localStorage.setItem("darkMode", "true");
         }
     };
 

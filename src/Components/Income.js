@@ -4,7 +4,6 @@ import { useGlobalContext } from "../context/globalContext";
 import { InnerLayout } from "../styles/Layouts";
 import Form from "./Form";
 import IncomeItem from "./IncomeItem";
-import { rupee } from "../utils/Icons";
 
 function Income() {
   const { currencyFormat,addIncome, incomes, getIncomes, deleteIncome, totalIncome } =
