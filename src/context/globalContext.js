@@ -8,6 +8,7 @@ export const GlobalProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [incomes, setIncomes] = useState([]);
+  const [bills, setBills] = useState([]);
   const [expenses, setExpenses] = useState([]);
   const [error, setError] = useState(null);
 
@@ -63,6 +64,9 @@ export const GlobalProvider = ({ children }) => {
     return user != null;
   };
 
+
+
+
   const addIncome = async (income) => {
     await axios
       .post(`${BASE_URL}transactions/add-income`, income)
@@ -91,6 +95,40 @@ export const GlobalProvider = ({ children }) => {
     return totalIncome;
   };
 
+
+
+
+  const addBill = async (bill) => {
+    await axios
+      .post(`${BASE_URL}transactions/add-bill`, bill)
+      .catch((err) => {
+        setError(err.response.data.message);
+      });
+    getBills();
+  };
+
+  const getBills = async () => {
+    const response = await axios.get(`${BASE_URL}transactions/get-bills`);
+    setBills(response.data);
+    console.log("getBills: ", response.data);
+  };
+
+  const deleteBill = async (id) => {
+    await axios.delete(`${BASE_URL}transactions/delete-bill/${id}`);
+    getBills();
+  };
+
+  const totalBill = () => {
+    let totalBill = 0;
+    bills.forEach((bill) => {
+      if (bill.userid === user.id) totalBill= totalBill + bill.amount;
+    });
+    return totalBill;
+  };
+
+
+
+
   const addExpense = async (income) => {
     await axios
       .post(`${BASE_URL}transactions/add-expense`, income)
@@ -118,6 +156,9 @@ export const GlobalProvider = ({ children }) => {
     });
     return totalIncome;
   };
+
+
+
 
   const totalBalance = () => {
     return totalIncome() - totalExpenses();
@@ -149,19 +190,29 @@ export const GlobalProvider = ({ children }) => {
         incomes,
         expenses,
         error,
+        bills,
+
         signinGoogle,
         login,
         logout,
         isAuthenticated,
         currencyFormat,
+        
         addIncome,
         getIncomes,
         deleteIncome,
         totalIncome,
+        
+        addBill,
+        getBills,
+        deleteBill,
+        totalBill,
+        
         addExpense,
         getExpenses,
         deleteExpense,
         totalExpenses,
+        
         totalBalance,
         transactionHistory,
         setError,

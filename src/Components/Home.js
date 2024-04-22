@@ -5,6 +5,7 @@ import Orb from "./Orb";
 import Navigation from "./Navigation";
 import Dashboard from "./Dashboard";
 import Income from "./Income";
+import Bill from "./Bill";
 import Expenses from "./Expenses/Expenses";
 
 function Home() {
@@ -19,6 +20,8 @@ function Home() {
         return <Income />;
       case 3:
         return <Expenses />;
+      case 4:
+        return <Bill />;
       default:
         return <Dashboard />;
     }

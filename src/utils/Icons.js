@@ -29,3 +29,11 @@ export const food = <i className="fa-solid fa-bowl-food"></i>;
 export const medical = <i className="fa-solid fa-briefcase-medical"></i>;
 export const tv = <i className="fa-solid fa-tv"></i>;
 export const circle = <i className="fa-solid fa-circle-dot"></i>;
+
+export const rent = <i class="fa-sharp fa-solid fa-house"></i>;
+export const credit = <i class="fa-solid fa-credit-card"></i>;
+export const tax = <i class="fa-solid fa-hand-holding-dollar"></i>;
+export const insurance = <i class="fa-sharp fa-solid fa-percent"></i>;
+export const mobile = <i class="fa-solid fa-mobile"></i>; 
+export const gas = <i class="fa-solid fa-fire-flame-simple"></i>; 
+export const electricity = <i class="fa-solid fa-bolt"></i>

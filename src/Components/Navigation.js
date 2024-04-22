@@ -9,10 +9,12 @@ import { useGlobalContext } from "../context/globalContext";
 function Navigation({ active, setActive }) {
   const { user, logout } = useGlobalContext();
   const navigate = useNavigate();
+  
   const handleSignout = () => {
     logout();
     navigate("/login");
   };
+
   const check = (pfp) => {
     for (let i = 0; i < pfp.length; i++) {
       for (let j = i + 1; j <= pfp.length; j++) {
@@ -27,6 +29,7 @@ function Navigation({ active, setActive }) {
     ? user?.profileImagePath
     : `http://localhost:5000/${user?.profileImagePath.replace("public", "")}`;
 
+    
   return (
     <NavStyled>
       <div className="user-con">
