@@ -18,7 +18,7 @@ const requireAuth = require("../middleware/requireAuth");
 const router = require("express").Router();
 
 // require Auth for all transaction methods
-router.use(requireAuth)
+router.use(requireAuth);
 
 router.post("/add-income", addIncome);
 router.get("/get-incomes", getIncomes);
