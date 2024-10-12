@@ -3,44 +3,42 @@ const bcrypt = require("bcryptjs");
 const axios = require("axios");
 const User = require("../models/userModel");
 
-const registerController = async (req, res) => { 
-    // form Register
-    const { firstName, lastName, email, password } = req.body;
-    try {
-      const profileImage = req.file;
-      if (!profileImage) {
-        return res.status(400).send("No file uploaded");
-      }
-      const profileImagePath = profileImage.path;
+const registerController = async (req, res, profileImageUrl) => { 
+  const { firstName, lastName, email, password } = req.body;
+  
+  try {
+    const existingUser = await User.findOne({ email });
 
-      const existingUser = await User.findOne({ email });
-
-      if (existingUser)
-        return res.status(400).json({ message: "User already exists!" });
-
-      const salt = await bcrypt.genSalt();
-      const hashedPassword = await bcrypt.hash(password, salt);
-
-      const newUser = new User({
-        firstName,
-        lastName,
-        email,
-        password: hashedPassword,
-        profileImagePath,
-      });
-
-      await newUser.save();
-
-      res
-        .status(200)
-        .json({ message: "User registered successfully!", user: newUser });
-    } catch (err) {
-      console.log(err);
-      res
-        .status(500)
-        .json({ message: "Registration failed!", error: err.message });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists!" });
     }
+
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const newUser = new User({
+      firstName,
+      lastName,
+      email,
+      password: hashedPassword,
+      profileImagePath: profileImageUrl,  // Save Cloudinary URL here
+    });
+
+    await newUser.save();
+
+    res.status(200).json({ 
+      message: "User registered successfully!", 
+      user: newUser 
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ 
+      message: "Registration failed!", 
+      error: err.message 
+    });
+  }
 };
+
 
 const loginController = async (req, res) => {
     if(req.body.googleAccessToken){

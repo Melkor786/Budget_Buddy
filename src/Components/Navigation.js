@@ -15,20 +15,7 @@ function Navigation({ active, setActive }) {
     navigate("/login");
   };
 
-  const check = (pfp) => {
-    for (let i = 0; i < pfp.length; i++) {
-      for (let j = i + 1; j <= pfp.length; j++) {
-        if (pfp.substring(i, j) === "public") {
-          return 0;
-        }
-      }
-    }
-    return 1;
-  };
-  const UserProfile = check(user?.profileImagePath)
-    ? user?.profileImagePath
-    : `http://localhost:5000/${user?.profileImagePath.replace("public", "")}`;
-
+  const UserProfile = user?.profileImagePath;
     
   return (
     <NavStyled>
