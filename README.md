@@ -55,9 +55,9 @@
 
 3. Install the dependencies for both frontend and backend:
     ```bash
-  npm install
-  cd backend
-  npm install
+    npm install
+    cd backend
+    npm install
 
 4. Start the Frontend and Backend in Seperate Terminals:
     ```bash
