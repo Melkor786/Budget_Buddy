@@ -1,5 +1,6 @@
 const router = require("express").Router();
 require("dotenv").config();
+
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
 
@@ -7,6 +8,7 @@ const {
   loginController,
   registerController,
 } = require("../controllers/userControllers");
+
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -19,6 +21,7 @@ const upload = multer({ storage });
 
 
 router.post("/register", upload.single("profileImage"), (req, res) => {
+  
   if (!req.file) {
     return res.status(400).json({ message: "No file uploaded" });
   }

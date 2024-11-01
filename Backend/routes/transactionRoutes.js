@@ -23,9 +23,11 @@ router.use(requireAuth);
 router.post("/add-income", addIncome);
 router.get("/get-incomes", getIncomes);
 router.delete("/delete-income/:id", deleteIncome);
+
 router.post("/add-expense", addExpense);
 router.get("/get-expenses", getExpenses);
 router.delete("/delete-expense/:id", deleteExpense);
+
 router.post("/add-bill", addBill);
 router.get("/get-bills", getBills);
 router.delete("/delete-bill/:id", deleteBill);

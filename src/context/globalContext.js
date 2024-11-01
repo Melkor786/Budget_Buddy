@@ -13,7 +13,7 @@ export const GlobalProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const storedUser  = localStorage.getItem("user");
     const storedToken = localStorage.getItem("token");
 
     if (storedUser && storedToken) {
