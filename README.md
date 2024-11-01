@@ -59,11 +59,16 @@
     cd backend
     npm install
 
-4. Start the Frontend and Backend in Seperate Terminals:
+4. Add Envirnment Variables
+  
+5. Start the Frontend:
     ```bash
    npm start
-   cd backend
-   npm install
+    
+6. Start the Backend: 
+   ```bash
+      cd backend
+      npm start
 
 ## ScreenShots
 
