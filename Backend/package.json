@@ -5,7 +5,8 @@
   "description": "backend for Expense Tracker Application",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "build": "npm install"
   },
   "author": "",
   "license": "ISC",
