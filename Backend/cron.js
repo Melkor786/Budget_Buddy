@@ -78,7 +78,7 @@ async function sendNotification(email, subject, htmlMessage) {
       from: config.emailUser,
       to: email,
       subject: subject,
-      html: htmlMessage, // Use HTML content instead of plain text
+      html: htmlMessage, 
     });
 
     console.log(`Notification sent successfully to ${email}`);
