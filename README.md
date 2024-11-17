@@ -81,3 +81,5 @@
 ![Expenses](<Screenshot (29).png>)
 
 ![Bills](<Screenshot (30).png>)
+
+![Bills](<diagram-export-18-11-2024-1_14_28-am>)
